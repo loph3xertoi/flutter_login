@@ -1,6 +1,7 @@
 library auth_card_builder;
 
 import 'dart:math';
+import 'dart:async';
 
 import 'package:another_transformer_page_view/another_transformer_page_view.dart';
 import 'package:flutter/material.dart';

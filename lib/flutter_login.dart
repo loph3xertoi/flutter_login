@@ -296,6 +296,7 @@ class FlutterLogin extends StatefulWidget {
     this.onConfirmSignup,
     this.confirmSignupRequired,
     this.onResendCode,
+    this.resendCodeInterval = 0,
     this.savedEmail = '',
     this.savedPassword = '',
     this.initialAuthMode = AuthMode.login,
@@ -419,6 +420,9 @@ class FlutterLogin extends StatefulWidget {
   /// Called when the user hits the resend code button in confirm signup mode
   /// Only when onConfirmSignup is set
   final SignupCallback? onResendCode;
+
+  /// Interval time in second between calls of resend code, disable interval when 0.
+  final int? resendCodeInterval;
 
   /// Prefilled (ie. saved from previous session) value at startup for username
   /// (Auth class calls username email, therefore we use savedEmail here aswell)
@@ -791,6 +795,7 @@ class _FlutterLoginState extends State<FlutterLogin>
             confirmSignupRequired: widget.confirmSignupRequired,
             beforeAdditionalFieldsCallback: widget.onSwitchToAdditionalFields,
             onResendCode: widget.onResendCode,
+            resendCodeInterval: widget.resendCodeInterval,
             termsOfService: widget.termsOfService,
             initialAuthMode: widget.initialAuthMode,
           ),

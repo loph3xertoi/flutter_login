@@ -25,6 +25,7 @@ Follow the install instructions [here](https://pub.dev/packages/flutter_login#-i
 | confirmSignupRequired                 | `ConfirmSignupRequiredCallback`         | <sub>Additional option to decide in runtime if confirmation is required. If not specified, signup will be confirmed by user if onConfirmSignup is specified.</sub>                                                                                     |
 | confirmSignupKeyboardType             | `TextInputType`                         | <sub>The keyboard type of the confirm signup field</sub>                                                                                                                                                                                               |
 | onResendCode                          | `AuthCallback`                          | <sub>Called when the user hits the resend code button when confirming signup. Only required when onConfirmSignup is provided.</sub>                                                                                                                    |
+| resendCodeInterval                    | `int`                                   | <sub>Interval time in second between calls of resend code, disable interval when 0.</sub>                                                                                                                                                              |
 | onLogin                               | `AuthCallback`                          | <sub>Called when the user hit the submit button when in login mode</sub>                                                                                                                                                                               |
 | onRecoverPassword                     | `RecoverCallback`                       | <sub>Called when the user hit the submit button when in recover password mode</sub>                                                                                                                                                                    |
 | onConfirmRecover                      | `ConfirmRecoverCallback`                | <sub>Called when the user submits confirmation code and sets password in recover password mode. If not specified, a confirmation code will not be used to recover password.</sub>                                                                      |
@@ -576,3 +577,4 @@ class LoginScreen extends StatelessWidget {
 * MIT License
 
 [example project]: example/
+

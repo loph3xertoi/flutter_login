@@ -54,6 +54,7 @@ class Auth with ChangeNotifier {
     this.onConfirmSignup,
     this.confirmSignupRequired,
     this.onResendCode,
+    this.resendCodeInterval,
     this.beforeAdditionalFieldsCallback,
     String email = '',
     String password = '',
@@ -73,6 +74,7 @@ class Auth with ChangeNotifier {
   final ConfirmSignupCallback? onConfirmSignup;
   final ConfirmSignupRequiredCallback? confirmSignupRequired;
   final SignupCallback? onResendCode;
+  final int? resendCodeInterval;
   final List<TermOfService> termsOfService;
   final BeforeAdditionalFieldsCallback? beforeAdditionalFieldsCallback;
 

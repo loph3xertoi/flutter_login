@@ -28,6 +28,9 @@ class _ConfirmSignupCardState extends State<_ConfirmSignupCard>
   late AnimationController _fieldSubmitController;
 
   var _isSubmitting = false;
+  var _disableResendButton = false;
+  var _counter = 0;
+  Timer? _timer;
   var _code = '';
 
   @override
@@ -42,8 +45,24 @@ class _ConfirmSignupCardState extends State<_ConfirmSignupCard>
 
   @override
   void dispose() {
+    _timer?.cancel();
     _fieldSubmitController.dispose();
     super.dispose();
+  }
+
+  void _triggerCounter(int resendCodeInterval) {
+    _disableResendButton = true;
+    _counter = resendCodeInterval;
+    _timer = Timer.periodic(Duration(seconds: 1), (_timer) {
+      setState(() {
+        if (_counter > 0) {
+          _counter--;
+        } else {
+          _disableResendButton = false;
+          _timer.cancel();
+        }
+      });
+    });
   }
 
   Future<bool> _submit() async {
@@ -98,7 +117,13 @@ class _ConfirmSignupCardState extends State<_ConfirmSignupCard>
     final messages = Provider.of<LoginMessages>(context, listen: false);
 
     await _fieldSubmitController.forward();
-    setState(() => _isSubmitting = true);
+    setState(() {
+      _isSubmitting = true;
+      if (auth.resendCodeInterval! > 0) {
+        _triggerCounter(auth.resendCodeInterval!);
+      }
+    });    
+
     final error = await auth.onResendCode!(
       SignupData.fromSignupForm(
         name: auth.email,
@@ -146,14 +171,20 @@ class _ConfirmSignupCardState extends State<_ConfirmSignupCard>
   Widget _buildResendCode(ThemeData theme, LoginMessages messages) {
     return ScaleTransition(
       scale: widget.loadingController,
-      child: MaterialButton(
-        onPressed: !_isSubmitting ? _resendCode : null,
-        child: Text(
-          messages.resendCodeButton,
-          style: theme.textTheme.bodyMedium,
-          textAlign: TextAlign.left,
-        ),
-      ),
+      child: _disableResendButton
+          ? Text(
+              '${_counter}s',
+              style: theme.textTheme.bodyMedium,
+              textAlign: TextAlign.left,
+            )
+          : MaterialButton(
+              onPressed: !_isSubmitting ? _resendCode : null,
+              child: Text(
+                messages.resendCodeButton,
+                style: theme.textTheme.bodyMedium,
+                textAlign: TextAlign.left,
+              ),
+            ),
     );
   }
 
