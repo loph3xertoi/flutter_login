@@ -10,6 +10,10 @@ enum AuthType { provider, userPassword }
 /// The result is an error message, callback successes if message is null
 typedef LoginCallback = Future<String?>? Function(LoginData);
 
+/// The callback triggered before signup
+/// The result is an error message, callback successes if message is null
+typedef PreSignupCallback = Future<String?>? Function();
+
 /// The callback triggered after signup
 /// The result is an error message, callback successes if message is null
 typedef SignupCallback = Future<String?>? Function(SignupData);
@@ -48,6 +52,7 @@ class Auth with ChangeNotifier {
   Auth({
     this.loginProviders = const [],
     this.onLogin,
+    this.preSignup,
     this.onSignup,
     this.onRecoverPassword,
     this.onConfirmRecover,
@@ -67,6 +72,7 @@ class Auth with ChangeNotifier {
         _mode = initialAuthMode;
 
   final LoginCallback? onLogin;
+  final PreSignupCallback? preSignup;
   final SignupCallback? onSignup;
   final RecoverCallback? onRecoverPassword;
   final List<LoginProvider> loginProviders;

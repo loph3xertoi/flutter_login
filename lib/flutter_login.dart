@@ -266,6 +266,7 @@ class __HeaderState extends State<_Header> {
 class FlutterLogin extends StatefulWidget {
   FlutterLogin({
     super.key,
+    this.preSignup,
     this.onSignup,
     required this.onLogin,
     required this.onRecoverPassword,
@@ -307,6 +308,9 @@ class FlutterLogin extends StatefulWidget {
     this.onSwitchToAdditionalFields,
   })  : assert((logo is String?) || (logo is ImageProvider?)),
         logo = logo is String ? AssetImage(logo) : logo as ImageProvider?;
+
+  /// Called after the user hit the signup button when in sign up mode
+  final PreSignupCallback? preSignup;
 
   /// Called when the user hit the submit button when in sign up mode
   ///
@@ -784,6 +788,7 @@ class _FlutterLoginState extends State<FlutterLogin>
         ChangeNotifierProvider(
           create: (context) => Auth(
             onLogin: widget.onLogin,
+            preSignup: widget.preSignup,
             onSignup: widget.onSignup,
             onRecoverPassword: widget.onRecoverPassword,
             loginProviders: widget.loginProviders,

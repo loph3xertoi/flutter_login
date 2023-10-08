@@ -186,6 +186,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
         ),
       );
     } else {
+      await auth.preSignup?.call();
       if (!widget.requireAdditionalSignUpFields) {
         error = await auth.onSignup!(
           SignupData.fromSignupForm(
